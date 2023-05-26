@@ -1,0 +1,6 @@
+aiohttp
+fastapi
+sqlalchemy[asyncio]
+asyncpg
+dependency_injector
+uvicorn
