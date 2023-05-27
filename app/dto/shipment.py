@@ -4,7 +4,7 @@ from app.dto.location import Location
 
 
 class Shipment(BaseModel):
-    id: int
+    shipment_id: int
     pick_up: Location
     delivery: Location
     weight: int
