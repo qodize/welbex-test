@@ -7,7 +7,7 @@ from app.dto.update_transport import UpdateTransport
 from app.repos.abstract.transports_repository_interface import TransportsRepositoryInterface
 
 
-class TransportService:
+class TransportsService:
     def __init__(
             self,
             transports_repo: TransportsRepositoryInterface
