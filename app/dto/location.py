@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class Location(BaseModel):
-    id: int
+    location_id: int
     state: str
     zipcode: str
     latitude: float
