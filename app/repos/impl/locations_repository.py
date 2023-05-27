@@ -22,7 +22,7 @@ class LocationsRepository(LocationsRepositoryInterface):
         async with self.session_factory() as session:
             return [
                 mappers[LocationModel][Location](location_model)
-                for location_model in await session.execute(select(LocationModel))
+                for location_model in (await session.execute(select(LocationModel))).scalars()
             ]
 
     async def create_location(self, create_dto: CreateLocation) -> Location:
