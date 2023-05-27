@@ -4,3 +4,4 @@ sqlalchemy[asyncio]
 asyncpg
 dependency_injector
 uvicorn
+geopy
