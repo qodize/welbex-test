@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.entities.location import Location
+from app.dto.location import Location
 
 
 class Shipment(BaseModel):
