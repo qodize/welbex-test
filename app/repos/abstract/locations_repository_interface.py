@@ -1,5 +1,6 @@
 import abc
 
+from app.dto.create_location import CreateLocation
 from app.dto.location import Location
 
 
@@ -9,5 +10,5 @@ class LocationsRepositoryInterface(abc.ABC):
         ...
 
     @abc.abstractmethod
-    async def create_location(self) -> Location:
+    async def create_location(self, create_dto: CreateLocation) -> Location:
         ...
