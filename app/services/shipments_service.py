@@ -1,3 +1,5 @@
+from typing import Optional
+
 from app.dto.create_shipment import CreateShipment
 from app.dto.shipment import Shipment
 from app.dto.update_shipment import UpdateShipment
@@ -16,11 +18,10 @@ class ShipmentsService:
 
     async def get_shipments(
             self,
-            min_weight: int,
-            max_weight: int,
-            max_transport_distance: int
+            min_weight: Optional[int] = None,
+            max_weight: Optional[int] = None,
     ) -> list[Shipment]:
-        return await self.shipments_repo.get_shipments(min_weight, max_weight, max_transport_distance)
+        return await self.shipments_repo.get_shipments(min_weight, max_weight)
 
     async def get_shipment(self, shipment_id: int) -> Shipment:
         return await self.shipments_repo.get_shipment(shipment_id)

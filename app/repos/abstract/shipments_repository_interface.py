@@ -1,4 +1,5 @@
 import abc
+from typing import Optional
 
 from app.dto.create_shipment import CreateShipment
 from app.dto.shipment import Shipment
@@ -13,9 +14,8 @@ class ShipmentsRepositoryInterface(abc.ABC):
     @abc.abstractmethod
     async def get_shipments(
             self,
-            min_weight: int,
-            max_weight: int,
-            max_transport_distance: int
+            min_weight: Optional[int] = None,
+            max_weight: Optional[int] = None,
     ) -> list[Shipment]:
         ...
 
