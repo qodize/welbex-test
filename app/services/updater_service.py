@@ -24,6 +24,6 @@ class UpdaterService:
                 await self.transport_repo.update_transport(
                     transport.transport_id,
                     UpdateTransport(
-                        location_zipcode=random.choice(locations).zipcode
+                        current_zipcode=random.choice(locations).zipcode
                     )
                 )
