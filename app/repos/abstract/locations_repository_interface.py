@@ -12,3 +12,7 @@ class LocationsRepositoryInterface(abc.ABC):
     @abc.abstractmethod
     async def create_location(self, create_dto: CreateLocation) -> Location:
         ...
+
+    @abc.abstractmethod
+    async def bulk_create_locations(self, create_dtos: list[CreateLocation]) -> None:
+        ...

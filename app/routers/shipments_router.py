@@ -1,3 +1,5 @@
+from typing import Optional
+
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends, Query, Path, HTTPException, Body
 
@@ -22,9 +24,9 @@ router = APIRouter()
 )
 @inject
 async def get_shipments(
-        min_weight: int = Query(None, description='Minimum weight filter'),
-        max_weight: int = Query(None, description='Maximum weight filter'),
-        max_transport_distance: int = Query(None, description='Maximum transport distance filter'),
+        min_weight: Optional[int] = Query(None, description='Minimum weight filter'),
+        max_weight: Optional[int] = Query(None, description='Maximum weight filter'),
+        max_transport_distance: Optional[int] = Query(450, description='Maximum transport distance filter'),
         shipments_service: ShipmentsService = Depends(Provide[Container.shipments_service]),
         transports_service: TransportsService = Depends(Provide[Container.transports_service])
 ) -> list[ShipmentsListItem]:
@@ -114,7 +116,7 @@ async def create_shipment(
 )
 @inject
 async def update_shipment(
-        shipment_id: Path(),
+        shipment_id: int = Path(),
         body: UpdateShipment = Body(),
         shipments_service: ShipmentsService = Depends(Provide[Container.shipments_service])
 ) -> Shipment:
@@ -126,14 +128,14 @@ async def update_shipment(
 
 @router.delete(
     '/{shipment_id}',
-    responses={204: {'description': 'Delete shipment'},
+    responses={200: {'description': 'Delete shipment'},
                404: {'description': 'Not found'}}
 )
 @inject
 async def delete_shipment(
-        shipment_id: Path(),
+        shipment_id: int = Path(),
         shipments_service: ShipmentsService = Depends(Provide[Container.shipments_service])
-) -> None:
+):
     try:
         await shipments_service.delete_shipment(shipment_id)
     except NotFoundError:

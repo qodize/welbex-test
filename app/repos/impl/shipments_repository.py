@@ -34,10 +34,15 @@ class ShipmentsRepository(ShipmentsRepositoryInterface):
                 raise ZipcodeNotFoundError()
 
     async def get_shipments(self, min_weight: Optional[int] = None, max_weight: Optional[int] = None) -> list[Shipment]:
+        query = select(ShipmentModel)
+        if min_weight:
+            query = query.filter(ShipmentModel.weight >= min_weight)
+        if max_weight:
+            query = query.filter(ShipmentModel.weight <= max_weight)
         async with self.session_factory() as session:
             return [
                 mappers[ShipmentModel][Shipment](shipment_model)
-                for shipment_model in (await session.execute(select(ShipmentModel))).scalars()
+                for shipment_model in (await session.execute(query)).scalars()
             ]
 
     async def get_shipment(self, shipment_id: int) -> Shipment:

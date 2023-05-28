@@ -1,6 +1,7 @@
-from dependency_injector.wiring import inject, Provide, Container
+from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Body, Depends, HTTPException, Path
 
+from app.di.containers import Container
 from app.dto.create_transport import CreateTransport
 from app.dto.transport import Transport
 from app.dto.update_transport import UpdateTransport
@@ -24,7 +25,7 @@ async def create_transport(
 ) -> Transport:
     try:
         return await transports_service.create_transport(body)
-    except AlreadyExistsError:
+    except (ZipcodeNotFoundError, AlreadyExistsError):
         raise HTTPException(status_code=400)
 
 

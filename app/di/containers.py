@@ -36,7 +36,8 @@ class Container(containers.DeclarativeContainer):
 
     transports_service = providers.Factory(
         TransportsService,
-        transports_repository.provided
+        transports_repository.provided,
+        locations_repository.provided
     )
 
     shipments_service = providers.Factory(

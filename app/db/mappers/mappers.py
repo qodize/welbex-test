@@ -49,6 +49,6 @@ mappers[TransportModel] = {}
 mappers[TransportModel][Transport] = lambda transport_model: Transport(
     transport_id=transport_model.transport_id,
     number=transport_model.number,
-    current_location=transport_model.current_location,
+    current_location=mappers[LocationModel][Location](transport_model.current_location),
     max_weight=transport_model.max_weight,
 )

@@ -41,10 +41,13 @@ class TransportsRepository(TransportsRepositoryInterface):
                 )).scalar_one()
             except SQLAlchemyError:
                 raise NotFoundError()
-            if update_dto.current_zipcode:
-                transport_model.current_zipcode = update_dto.current_zipcode
-            session.add(transport_model)
-            await session.commit()
+            try:
+                if update_dto.current_zipcode:
+                    transport_model.current_zipcode = update_dto.current_zipcode
+                session.add(transport_model)
+                await session.commit()
+            except SQLAlchemyError:
+                raise ZipcodeNotFoundError()
             await session.refresh(transport_model)
             return mappers[TransportModel][Transport](transport_model)
 

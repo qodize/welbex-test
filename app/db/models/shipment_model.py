@@ -13,5 +13,5 @@ class ShipmentModel(Base):
     weight: Mapped[int]
     description: Mapped[str]
 
-    pick_up_location: Mapped['LocationModel'] = relationship(foreign_keys=pick_up_zipcode)
-    delivery_location: Mapped['LocationModel'] = relationship(foreign_keys=delivery_zipcode)
+    pick_up_location: Mapped['LocationModel'] = relationship(foreign_keys=pick_up_zipcode, lazy=False)
+    delivery_location: Mapped['LocationModel'] = relationship(foreign_keys=delivery_zipcode, lazy=False)
