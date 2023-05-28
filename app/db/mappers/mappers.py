@@ -1,9 +1,12 @@
 from app.db.models.location_model import LocationModel
 from app.db.models.shipment_model import ShipmentModel
+from app.db.models.transport_model import TransportModel
 from app.dto.create_location import CreateLocation
 from app.dto.create_shipment import CreateShipment
+from app.dto.create_transport import CreateTransport
 from app.dto.location import Location
 from app.dto.shipment import Shipment
+from app.dto.transport import Transport
 
 mappers = {}
 mappers[LocationModel] = {}
@@ -35,4 +38,17 @@ mappers[CreateShipment][ShipmentModel] = lambda create_dto: ShipmentModel(
     delivery_zipcode=create_dto.delivery_zipcode,
     weight=create_dto.weight,
     description=create_dto.description,
+)
+mappers[CreateTransport] = {}
+mappers[CreateTransport][TransportModel] = lambda create_dto: TransportModel(
+    number=create_dto.number,
+    current_zipcode=create_dto.current_zipcode,
+    max_weight=create_dto.max_weight,
+)
+mappers[TransportModel] = {}
+mappers[TransportModel][Transport] = lambda transport_model: Transport(
+    transport_id=transport_model.transport_id,
+    number=transport_model.number,
+    current_location=transport_model.current_location,
+    max_weight=transport_model.max_weight,
 )
