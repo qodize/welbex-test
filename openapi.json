@@ -1,0 +1,660 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/shipments": {
+      "get": {
+        "summary": "Get Shipments",
+        "operationId": "get_shipments_shipments_get",
+        "parameters": [
+          {
+            "description": "Minimum weight filter",
+            "required": false,
+            "schema": {
+              "title": "Min Weight",
+              "type": "integer",
+              "description": "Minimum weight filter"
+            },
+            "name": "min_weight",
+            "in": "query"
+          },
+          {
+            "description": "Maximum weight filter",
+            "required": false,
+            "schema": {
+              "title": "Max Weight",
+              "type": "integer",
+              "description": "Maximum weight filter"
+            },
+            "name": "max_weight",
+            "in": "query"
+          },
+          {
+            "description": "Maximum transport distance filter",
+            "required": false,
+            "schema": {
+              "title": "Max Transport Distance",
+              "type": "integer",
+              "description": "Maximum transport distance filter",
+              "default": 450
+            },
+            "name": "max_transport_distance",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list of shipments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response 200 Get Shipments Shipments Get",
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShipmentsListItem"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Shipment",
+        "operationId": "create_shipment_shipments_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShipment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Create shipment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid zipcode"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shipments/{shipment_id}": {
+      "get": {
+        "summary": "Get Shipment",
+        "operationId": "get_shipment_shipments__shipment_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Shipment Id",
+              "type": "integer"
+            },
+            "name": "shipment_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get one shipment by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleShipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Shipment with such id not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Shipment",
+        "operationId": "update_shipment_shipments__shipment_id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Shipment Id",
+              "type": "integer"
+            },
+            "name": "shipment_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShipment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update shipment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Shipment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Shipment with such id not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Shipment",
+        "operationId": "delete_shipment_shipments__shipment_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Shipment Id",
+              "type": "integer"
+            },
+            "name": "shipment_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete shipment",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transports": {
+      "post": {
+        "summary": "Create Transport",
+        "operationId": "create_transport_transports_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Create transport",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "number should be unique"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transports/{transport_id}": {
+      "put": {
+        "summary": "Update Transport",
+        "operationId": "update_transport_transports__transport_id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Transport Id",
+              "type": "integer"
+            },
+            "name": "transport_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTransport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update transport",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid zipcode"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateShipment": {
+        "title": "CreateShipment",
+        "required": [
+          "pick_up_zipcode",
+          "delivery_zipcode",
+          "weight",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "pick_up_zipcode": {
+            "title": "Pick Up Zipcode",
+            "type": "string"
+          },
+          "delivery_zipcode": {
+            "title": "Delivery Zipcode",
+            "type": "string"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "integer"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          }
+        }
+      },
+      "CreateTransport": {
+        "title": "CreateTransport",
+        "required": [
+          "number",
+          "max_weight"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "title": "Number",
+            "type": "string"
+          },
+          "current_zipcode": {
+            "title": "Current Zipcode",
+            "type": "string"
+          },
+          "max_weight": {
+            "title": "Max Weight",
+            "type": "integer"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "Location": {
+        "title": "Location",
+        "required": [
+          "location_id",
+          "state",
+          "zipcode",
+          "latitude",
+          "longitude"
+        ],
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "title": "Location Id",
+            "type": "integer"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          },
+          "zipcode": {
+            "title": "Zipcode",
+            "type": "string"
+          },
+          "latitude": {
+            "title": "Latitude",
+            "type": "number"
+          },
+          "longitude": {
+            "title": "Longitude",
+            "type": "number"
+          }
+        }
+      },
+      "Shipment": {
+        "title": "Shipment",
+        "required": [
+          "shipment_id",
+          "pick_up_location",
+          "delivery_location",
+          "weight",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "shipment_id": {
+            "title": "Shipment Id",
+            "type": "integer"
+          },
+          "pick_up_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "delivery_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "integer"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          }
+        }
+      },
+      "ShipmentsListItem": {
+        "title": "ShipmentsListItem",
+        "required": [
+          "shipment_id",
+          "pick_up_location",
+          "delivery_location",
+          "weight",
+          "description",
+          "closest_transports_count"
+        ],
+        "type": "object",
+        "properties": {
+          "shipment_id": {
+            "title": "Shipment Id",
+            "type": "integer"
+          },
+          "pick_up_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "delivery_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "integer"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "closest_transports_count": {
+            "title": "Closest Transports Count",
+            "type": "integer"
+          }
+        }
+      },
+      "SingleShipment": {
+        "title": "SingleShipment",
+        "required": [
+          "shipment_id",
+          "pick_up_location",
+          "delivery_location",
+          "weight",
+          "description",
+          "transports_distances"
+        ],
+        "type": "object",
+        "properties": {
+          "shipment_id": {
+            "title": "Shipment Id",
+            "type": "integer"
+          },
+          "pick_up_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "delivery_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "weight": {
+            "title": "Weight",
+            "type": "integer"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "transports_distances": {
+            "title": "Transports Distances",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransportDistance"
+            }
+          }
+        }
+      },
+      "Transport": {
+        "title": "Transport",
+        "required": [
+          "transport_id",
+          "number",
+          "current_location",
+          "max_weight"
+        ],
+        "type": "object",
+        "properties": {
+          "transport_id": {
+            "title": "Transport Id",
+            "type": "integer"
+          },
+          "number": {
+            "title": "Number",
+            "type": "string"
+          },
+          "current_location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "max_weight": {
+            "title": "Max Weight",
+            "type": "integer"
+          }
+        }
+      },
+      "TransportDistance": {
+        "title": "TransportDistance",
+        "required": [
+          "number",
+          "distance"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "title": "Number",
+            "type": "string"
+          },
+          "distance": {
+            "title": "Distance",
+            "type": "number"
+          }
+        }
+      },
+      "UpdateShipment": {
+        "title": "UpdateShipment",
+        "type": "object",
+        "properties": {
+          "weight": {
+            "title": "Weight",
+            "type": "integer"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          }
+        }
+      },
+      "UpdateTransport": {
+        "title": "UpdateTransport",
+        "required": [
+          "current_zipcode"
+        ],
+        "type": "object",
+        "properties": {
+          "current_zipcode": {
+            "title": "Current Zipcode",
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
